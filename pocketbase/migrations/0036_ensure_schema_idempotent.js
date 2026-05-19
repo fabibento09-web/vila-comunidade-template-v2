@@ -588,7 +588,10 @@ migrate(
       },
     }
 
-    for (const [name, ruleSet] of Object.entries(rules)) {
+    const ruleKeys = Object.keys(rules)
+    for (let i = 0; i < ruleKeys.length; i++) {
+      const name = ruleKeys[i]
+      const ruleSet = rules[name]
       try {
         const col = app.findCollectionByNameOrId(name)
         col.listRule = ruleSet.list
