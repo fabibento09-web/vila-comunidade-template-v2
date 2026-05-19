@@ -28,6 +28,7 @@ export function TopNav() {
   const navigate = useNavigate()
   const [loginOpen, setLoginOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handler = () => setLoginOpen(true)
@@ -97,7 +98,7 @@ export function TopNav() {
       <header className="fixed top-0 inset-x-0 z-50 h-14 bg-paper border-b border-line">
         <div className="w-full max-w-[1280px] mx-auto h-full flex items-center justify-between px-4 md:px-6">
           <div className="flex items-center gap-4 md:gap-8 h-full">
-            <Sheet>
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <button className="lg:hidden p-2 -ml-2 text-mute hover:text-ink transition-colors">
                   <Menu className="w-5 h-5" />
@@ -105,10 +106,37 @@ export function TopNav() {
               </SheetTrigger>
               <SheetContent
                 side="left"
-                className="w-[300px] p-0 bg-background border-r border-line"
+                className="w-[300px] p-0 bg-background border-r border-line flex flex-col"
               >
                 <DialogTitle className="sr-only">Navegação</DialogTitle>
-                <IdentitySidebarContent />
+                <div className="flex-1 overflow-y-auto">
+                  <nav className="md:hidden p-4 border-b border-line flex flex-col gap-1">
+                    <h3 className="font-mono text-xs uppercase tracking-widest text-mute mb-2 px-3">
+                      Menu
+                    </h3>
+                    {tabs.map((tab) => {
+                      const isActive =
+                        location.pathname.startsWith(tab.to) ||
+                        (tab.to === '/feed' && location.pathname === '/feed')
+                      return (
+                        <Link
+                          key={tab.label}
+                          to={tab.to}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={cn(
+                            'px-3 py-2 rounded-md text-sm font-medium transition-colors',
+                            isActive
+                              ? 'bg-sage/10 text-ink'
+                              : 'text-mute hover:text-ink hover:bg-wash',
+                          )}
+                        >
+                          {tab.label}
+                        </Link>
+                      )
+                    })}
+                  </nav>
+                  <IdentitySidebarContent onItemClick={() => setMobileMenuOpen(false)} />
+                </div>
               </SheetContent>
             </Sheet>
 

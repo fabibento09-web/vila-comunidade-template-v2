@@ -23,7 +23,7 @@ function SmallDivider() {
   )
 }
 
-export function IdentitySidebarContent() {
+export function IdentitySidebarContent({ onItemClick }: { onItemClick?: () => void }) {
   const location = useLocation()
   const { user } = useAuth()
   const [vila, setVila] = useState<any>(null)
@@ -258,6 +258,7 @@ export function IdentitySidebarContent() {
         <div className="flex flex-col gap-0.5">
           <Link
             to="/feed"
+            onClick={onItemClick}
             className={cn(
               'flex items-center justify-between w-full px-3 py-2 rounded-md hover:bg-wash transition-colors text-left group mb-1',
               location.pathname === '/feed' && 'bg-sage/10',
@@ -302,6 +303,7 @@ export function IdentitySidebarContent() {
                 )}
                 <Link
                   to={e.slug ? `/e/${e.slug}` : '/espacos'}
+                  onClick={onItemClick}
                   className="flex-1 flex items-center gap-3 overflow-hidden pointer-events-auto"
                 >
                   <span className="text-base shrink-0">{e.emoji}</span>
@@ -329,6 +331,7 @@ export function IdentitySidebarContent() {
       <div className="bg-paper/55 backdrop-blur-xl rounded-2xl border border-white/50 shadow-subtle p-2 shrink-0">
         <Link
           to="/rascunhos"
+          onClick={onItemClick}
           className={cn(
             'flex items-center justify-between w-full px-3 py-2 rounded-md hover:bg-wash transition-colors text-left group',
             location.pathname === '/rascunhos' && 'bg-sage/10',
